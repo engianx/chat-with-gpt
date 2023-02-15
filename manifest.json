@@ -1,0 +1,21 @@
+{
+    "name": "Chat with GPT",
+    "description": "Ask ChatGPT to do things on selected text",
+    "version": "0.1",
+    "manifest_version" : 3,
+    "permissions": ["contextMenus", "storage"],
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+    }],
+    "options_page": "options.html",
+    "icons": {
+        "16": "chat-with-gpt-16.png",
+        "48": "chat-with-gpt-48.png",
+        "128": "chat-with-gpt-128.png"
+    }
+}
