@@ -58,34 +58,23 @@ chrome.contextMenus.onClicked.addListener(async (item, tab) => {
     const prompt = item.menuItemId;
     const text = item.selectionText;
     // Bring up content box in the webpage.
-    (async () => {
-        const response = await chrome.tabs.sendMessage(tab.id, {
+    await chrome.tabs.sendMessage(tab.id, {
             prompt: prompt,
             status: "waiting for the response...",
-            text: text
-        });
-    })();
+            text: text});
 
-    // Construct prompt
-    const constructed_prompt = `${prompt} "${text}"`;
-    // result and status
-    var result, status;
-
-    try {
-        result = await callOpenAIApi(constructed_prompt);
-        status = 'success';
-    } catch (error) {
-        status = 'failed';
-        result = error.message;
-    }
-
-    // Send results back to the webpage.
-    (async () => {
-        const response = await chrome.tabs.sendMessage(tab.id, {
+    callOpenAIApi(`${prompt} "${text}"`).then(result => {
+        // Send results back to the webpage.
+        chrome.tabs.sendMessage(tab.id, {
             prompt: prompt,
-            status: status,
-            text: result });
-    })();
+            status: 'success',
+            text: result});
+    }).catch (error => {
+        chrome.tabs.sendMessage(tab.id, {
+            prompt: prompt,
+            status: 'failed',
+            text: error.message});
+    });
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
