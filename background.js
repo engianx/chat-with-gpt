@@ -50,7 +50,7 @@ async function callOpenAIApi(prompt) {
         return response_json.choices[0].text; 
     } else {
         const err_msg = await response.text();
-        throw new Error(`HTTP error! status: ${err_msg}`);
+        throw new Error(`HTTP error! reason: ${err_msg}`);
     }
 }
 

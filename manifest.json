@@ -1,6 +1,6 @@
 {
     "name": "Chat with GPT",
-    "description": "Ask ChatGPT to do things on selected text",
+    "description": "Customize context menu and ChatGPT prompt on selected texts",
     "version": "0.1",
     "manifest_version" : 3,
     "permissions": ["contextMenus", "storage"],
